@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@ant-design/pro-components": "^2.6.43",
     "@supabase/supabase-js": "^2.39.0",
     "@types/bcrypt": "^5.0.2",
     "antd": "^5.12.2",

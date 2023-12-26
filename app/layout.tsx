@@ -3,12 +3,13 @@ import { Figtree } from 'next/font/google';
 import './globals.css';
 import UserProvider from '@/providers/UserProvider';
 import { ConfigProvider, theme } from 'antd';
+import enUS from 'antd/lib/locale/en_US';
 
 const font = Figtree({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-	title: 'CEN403 Project', //TODO change title
-	description: 'description', //TODO change description
+	title: 'Project 403',
+	description: 'Lorem ipsum',
 };
 
 export default async function RootLayout({
@@ -21,6 +22,7 @@ export default async function RootLayout({
 			<body className={font.className}>
 				<UserProvider>
 					<ConfigProvider
+						locale={enUS}
 						theme={{
 							algorithm: theme.darkAlgorithm,
 						}}
