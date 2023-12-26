@@ -1,7 +1,9 @@
 'use client';
 
-import { Layout, theme } from 'antd';
+import { Button, Layout, theme } from 'antd';
 import DashboardSider from './DashboardSider';
+import { useState } from 'react';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
 
@@ -12,15 +14,33 @@ interface DashboardLayoutProps {
 export default function DashboardLayoutContent({
 	children,
 }: DashboardLayoutProps) {
+	const [collapsed, setCollapsed] = useState(false);
 	const {
 		token: { colorBgContainer, borderRadiusLG },
 	} = theme.useToken();
 
 	return (
 		<Layout hasSider>
-			<DashboardSider />
-			<Layout style={{ marginLeft: 200, minHeight: '100vh' }}>
-				<Header style={{ padding: 0 }} />
+			<DashboardSider collapsed={collapsed} />
+			<Layout>
+				<Header style={{ padding: 0, background: colorBgContainer }}>
+					<Button
+						type="text"
+						icon={
+							collapsed ? (
+								<MenuUnfoldOutlined />
+							) : (
+								<MenuFoldOutlined />
+							)
+						}
+						onClick={() => setCollapsed(!collapsed)}
+						style={{
+							fontSize: '16px',
+							width: 64,
+							height: 64,
+						}}
+					/>
+				</Header>
 				<Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
 					<div
 						style={{

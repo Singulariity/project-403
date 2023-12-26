@@ -4,6 +4,8 @@ import './globals.css';
 import UserProvider from '@/providers/UserProvider';
 import { ConfigProvider, theme } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
+import StyledComponentsRegistry from '@/lib/AntdRegistry';
+import ThemeProvider from '@/providers/ThemeProvider';
 
 const font = Figtree({ subsets: ['latin'] });
 
@@ -21,14 +23,13 @@ export default async function RootLayout({
 		<html lang="en">
 			<body className={font.className}>
 				<UserProvider>
-					<ConfigProvider
-						locale={enUS}
-						theme={{
-							algorithm: theme.darkAlgorithm,
-						}}
-					>
-						{children}
-					</ConfigProvider>
+					<StyledComponentsRegistry>
+						<ConfigProvider locale={enUS}>
+							<ThemeProvider template="dark">
+								{children}
+							</ThemeProvider>
+						</ConfigProvider>
+					</StyledComponentsRegistry>
 				</UserProvider>
 			</body>
 		</html>

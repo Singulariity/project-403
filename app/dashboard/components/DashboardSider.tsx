@@ -14,7 +14,11 @@ import { logout } from '@/actions/AuthActions';
 
 const { Sider } = Layout;
 
-export default function DashboardSider() {
+interface SiderProps {
+	collapsed: boolean;
+}
+
+export default function DashboardSider({ collapsed }: SiderProps) {
 	const router = useRouter();
 	const path = usePathname().split('/');
 
@@ -31,13 +35,11 @@ export default function DashboardSider() {
 	return (
 		<Sider
 			style={{
-				overflow: 'auto',
 				height: '100vh',
-				position: 'fixed',
-				left: 0,
-				top: 0,
-				bottom: 0,
 			}}
+			trigger={null}
+			collapsible
+			collapsed={collapsed}
 		>
 			<div className="demo-logo-vertical" />
 			<Menu
