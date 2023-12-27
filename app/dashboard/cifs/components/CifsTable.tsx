@@ -1,19 +1,42 @@
 'use client';
 
-import { Button, Space, Table, Tag, message } from 'antd';
+import { Button, Input, InputRef, Space, Table, Tag, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Database } from '@/types_db';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { deleteCif, updateCif } from '@/actions/CifActions';
-import { ExportOutlined } from '@ant-design/icons';
+import { ExportOutlined, SearchOutlined } from '@ant-design/icons';
+import { useRef, useState } from 'react';
+import { FilterConfirmProps } from 'antd/es/table/interface';
+import { ColumnType } from 'antd/lib/table';
 
 interface TableProps {
 	data: Database['public']['Tables']['cifs']['Row'][];
 }
 
+type DataIndex = keyof Database['public']['Tables']['cifs']['Row'];
+
 export default function CifsTable({ data }: TableProps) {
 	const [messageApi, contextHolder] = message.useMessage();
+	const [searchText, setSearchText] = useState('');
+	const [searchedColumn, setSearchedColumn] = useState('');
+	const searchInput = useRef<InputRef>(null);
+
+	const handleSearch = (
+		selectedKeys: string[],
+		confirm: (param?: FilterConfirmProps) => void,
+		dataIndex: DataIndex
+	) => {
+		confirm();
+		setSearchText(selectedKeys[0]);
+		setSearchedColumn(dataIndex);
+	};
+
+	const handleReset = (clearFilters: () => void) => {
+		clearFilters();
+		setSearchText('');
+	};
 	const router = useRouter();
 	const supa = createClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -46,6 +69,86 @@ export default function CifsTable({ data }: TableProps) {
 		}
 	}
 
+	const getColumnSearchProps = (
+		dataIndex: DataIndex
+	): ColumnType<Database['public']['Tables']['cifs']['Row']> => ({
+		filterDropdown: ({
+			setSelectedKeys,
+			selectedKeys,
+			confirm,
+			clearFilters,
+			close,
+		}) => (
+			<div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+				<Input
+					ref={searchInput}
+					placeholder={`Search ${dataIndex}`}
+					value={selectedKeys[0]}
+					onChange={(e) =>
+						setSelectedKeys(e.target.value ? [e.target.value] : [])
+					}
+					onPressEnter={() =>
+						handleSearch(
+							selectedKeys as string[],
+							confirm,
+							dataIndex
+						)
+					}
+					style={{ marginBottom: 8, display: 'block' }}
+				/>
+				<Space>
+					<Button
+						type="primary"
+						onClick={() =>
+							handleSearch(
+								selectedKeys as string[],
+								confirm,
+								dataIndex
+							)
+						}
+						icon={<SearchOutlined />}
+						size="small"
+						style={{ width: 90 }}
+					>
+						Search
+					</Button>
+					<Button
+						onClick={() =>
+							clearFilters && handleReset(clearFilters)
+						}
+						size="small"
+						style={{ width: 90 }}
+					>
+						Reset
+					</Button>
+					<Button
+						type="link"
+						size="small"
+						onClick={() => {
+							close();
+						}}
+					>
+						Close
+					</Button>
+				</Space>
+			</div>
+		),
+		filterIcon: (filtered: boolean) => (
+			<SearchOutlined
+				style={{ color: filtered ? '#1677ff' : undefined }}
+			/>
+		),
+		onFilter: (value, record) =>
+			record[dataIndex]!.toString()
+				.toLowerCase()
+				.includes((value as string).toLowerCase()),
+		onFilterDropdownOpenChange: (visible) => {
+			if (visible) {
+				setTimeout(() => searchInput.current?.select(), 100);
+			}
+		},
+	});
+
 	const columns: ColumnsType<Database['public']['Tables']['cifs']['Row']> = [
 		{
 			title: 'Student Number',
@@ -53,6 +156,7 @@ export default function CifsTable({ data }: TableProps) {
 			key: 'student_no',
 			sorter: (a, b) => a.student_no - b.student_no,
 			defaultSortOrder: 'ascend',
+			...getColumnSearchProps('student_no'),
 		},
 		{
 			title: 'Company Name',
