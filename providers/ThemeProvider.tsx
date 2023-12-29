@@ -3,7 +3,7 @@
 import { ConfigProvider, theme } from 'antd';
 
 interface Props {
-	template: 'dark' | 'light';
+	template?: 'dark' | 'light';
 	children: React.ReactNode;
 }
 

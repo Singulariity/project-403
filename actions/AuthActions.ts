@@ -11,7 +11,6 @@ import {
 } from '@/lib/utils/Utils';
 import { cookies } from 'next/headers';
 import { compare } from 'bcrypt';
-import { isSuperUser } from '@/lib/utils/dbUtils';
 
 export async function getSession(): Promise<SessionDetails | null> {
 	// get session token from user cookies

@@ -1,7 +1,7 @@
 'use client';
 import { getSession } from '@/actions/AuthActions';
 import { SessionDetails } from '@/types';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 type SessionContextType = {
