@@ -17,7 +17,7 @@ export default async function Page() {
 				type="info"
 			/>
 			<div className="mt-8 flex flex-col items-center">
-				<b className="mb-6">Check Student's Internship Process</b>
+				<b className="mb-6">{"Check Student's Internship Process"}</b>
 				<FindStudentForm />
 			</div>
 		</>
