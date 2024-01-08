@@ -18,7 +18,10 @@ export default async function CIFPage() {
 	return (
 		<>
 			<CifsTable data={data} />
-			<CreateCifForm />
+			<div className="flex flex-col items-center">
+				<h1>Create CIF</h1>
+				<CreateCifForm />
+			</div>
 		</>
 	);
 }

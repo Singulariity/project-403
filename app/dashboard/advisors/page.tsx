@@ -29,8 +29,10 @@ export default async function Page() {
 	return (
 		<>
 			<AdvisorsTable data={arr} />
-			<h1>Create Advisor</h1>
-			<CreateAdvisorForm />
+			<div className="flex flex-col items-center">
+				<h1>Create Advisor</h1>
+				<CreateAdvisorForm />
+			</div>
 		</>
 	);
 }

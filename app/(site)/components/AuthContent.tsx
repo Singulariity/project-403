@@ -52,7 +52,6 @@ export default function Page() {
 			>
 				<LoginFormPage
 					backgroundImageUrl="https://i.imgur.com/4CIe1Nn.jpg"
-					backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
 					title="Login"
 					containerStyle={{
 						backgroundColor: 'rgba(0, 0, 0,0.65)',

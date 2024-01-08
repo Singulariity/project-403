@@ -19,7 +19,6 @@ export default function FindStudentForm() {
 	return (
 		<>
 			{contextHolder}
-			<b>{"Check Student's Internship Process"}</b>
 			<Form
 				form={form}
 				layout="vertical"

@@ -18,8 +18,10 @@ export default async function Page() {
 	return (
 		<>
 			<StudentsTable data={data} />
-			<b>Create Student</b>
-			<CreateStudentForm />
+			<div className="flex flex-col items-center">
+				<h1>Create Student</h1>
+				<CreateStudentForm />
+			</div>
 		</>
 	);
 }
